@@ -1,0 +1,30 @@
+var ss = SpreadsheetApp.getActiveSpreadsheet();
+var sheet = ss.getActiveSheet();
+
+function changeToWeek(){
+  for (var i = 2; i <= sheet.getLastRow(); i++){
+    var orgDate = sheet.getRange(i, 1).getValue();
+    var orgDay = orgDate.getDay();
+    var orgTime = orgDate.getTime();
+    if (orgDay === 0){
+      var newTime = orgTime - 84600000 * 6;
+    }else if (orgDay === 1){
+      var newTime = orgTime;
+    }else if (orgDay === 2){
+      var newTime = orgTime - 84600000 * 1;
+    }else if (orgDay === 3){
+      var newTime = orgTime - 84600000 * 2;
+    }else if (orgDay === 4){
+      var newTime = orgTime - 84600000 * 3;
+    }else if (orgDay === 5){
+      var newTime = orgTime - 84600000 * 4;
+    } else {
+      var newTime = orgTime - 84600000 * 5;
+    }
+    var weekDate = new Date(newTime);
+    var newYear = weekDate.getFullYear();
+    var newMonth = weekDate.getMonth() + 1;
+    var newDate = weekDate.getDate();
+    sheet.getRange(i, 2).setValue(newYear + '/' + newMonth + '/' + newDate);
+  }
+}
