@@ -1,22 +1,26 @@
 var ss = SpreadsheetApp.getActiveSpreadsheet();
 var sheet = ss.getActiveSheet();
 
-function changeToWeek(){
-  for (var i = 2; i <= sheet.getLastRow(); i++){
-    var orgDate = sheet.getRange(i, 1).getValue();
-    var orgDay = orgDate.getDay();
-    var orgTime = orgDate.getTime();
-    if (orgDay === 0){
+function changeToWeek2(){
+  var startrows = 2;
+  var endrows = sheet.getLastRow();
+  var cols = 1;
+  var orgDays = sheet.getRange(startrows, cols, endrows, 1).getValues();
+  for (var i = 0; i < orgDays.length-1; i++){
+    var checkdate = new Date(orgDays[i]);
+    var checkday = checkdate.getDay();
+    var orgTime = checkdate.getTime();
+    if (checkday === 0){
       var newTime = orgTime - 84600000 * 6;
-    }else if (orgDay === 1){
+    }else if (checkday === 1){
       var newTime = orgTime;
-    }else if (orgDay === 2){
+    }else if (checkday === 2){
       var newTime = orgTime - 84600000 * 1;
-    }else if (orgDay === 3){
+    }else if (checkday === 3){
       var newTime = orgTime - 84600000 * 2;
-    }else if (orgDay === 4){
+    }else if (checkday === 4){
       var newTime = orgTime - 84600000 * 3;
-    }else if (orgDay === 5){
+    }else if (checkday === 5){
       var newTime = orgTime - 84600000 * 4;
     } else {
       var newTime = orgTime - 84600000 * 5;
@@ -25,6 +29,6 @@ function changeToWeek(){
     var newYear = weekDate.getFullYear();
     var newMonth = weekDate.getMonth() + 1;
     var newDate = weekDate.getDate();
-    sheet.getRange(i, 2).setValue(newYear + '/' + newMonth + '/' + newDate);
-  }
+    sheet.getRange(i+startrows, 2).setValue(newYear + '/' + newMonth + '/' + newDate);
+    }
 }
